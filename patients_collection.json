@@ -1,0 +1,88 @@
+[
+    {
+      "name": "John Doe",
+      "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "description": "John Doe needs financial support for medical treatment.",
+      "supporters": ["Alice", "Bob"],
+      "required_money": 5000,
+      "collected_money": 3000,
+      "filename": "john_doe.jpg",
+      "created": "2024-03-17"
+    },
+    {
+      "name": "Jane Smith",
+      "story": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "description": "Jane Smith is battling a serious illness and requires financial assistance for treatment.",
+      "supporters": ["Charlie", "David", "Emily"],
+      "required_money": 10000,
+      "collected_money": 7500,
+      "filename": "jane_smith.jpg",
+      "created": "2024-03-15"
+    },
+    {
+      "name": "Alice Johnson",
+      "story": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "description": "Alice Johnson was in an accident and needs help covering medical expenses.",
+      "supporters": ["Frank", "Grace"],
+      "required_money": 8000,
+      "collected_money": 4000,
+      "filename": "alice_johnson.jpg",
+      "created": "2024-03-10"
+    },
+    {
+      "name": "Sarah Lee",
+      "story": "Aliquam erat volutpat. Etiam interdum bibendum est, eget sollicitudin augue aliquam vitae. Proin vel arcu arcu.",
+      "description": "Sarah Lee needs financial assistance for her upcoming surgery.",
+      "supporters": ["Emma", "Henry"],
+      "required_money": 7000,
+      "collected_money": 2500,
+      "filename": "sarah_lee.jpg",
+      "created": "2024-03-17",
+      "createdBy": "Admin4"
+    },
+    {
+      "name": "Michael Brown",
+      "story": "Fusce ut fermentum velit. Sed vestibulum sollicitudin ante ac volutpat.",
+      "description": "Michael Brown requires financial support for his ongoing medical treatment.",
+      "supporters": ["Olivia", "Jackson", "Sophia"],
+      "required_money": 12000,
+      "collected_money": 8000,
+      "filename": "michael_brown.jpg",
+      "created": "2024-03-17",
+      "createdBy": "Admin5"
+    },
+    {
+      "name": "Emily Wilson",
+      "story": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+      "description": "Emily Wilson was diagnosed with a rare disease and needs help covering medical expenses.",
+      "supporters": ["Aiden", "Chloe"],
+      "required_money": 9000,
+      "collected_money": 6000,
+      "filename": "emily_wilson.jpg",
+      "created": "2024-03-17",
+      "createdBy": "Admin6"
+    },
+    {
+      "name": "Daniel Clark",
+      "story": "In hac habitasse platea dictumst. Ut laoreet metus ac massa molestie vestibulum.",
+      "description": "Daniel Clark suffered a serious injury and needs financial assistance for rehabilitation.",
+      "supporters": ["Ethan", "Ava"],
+      "required_money": 6000,
+      "collected_money": 4000,
+      "filename": "daniel_clark.jpg",
+      "created": "2024-03-17",
+      "createdBy": "Admin7"
+    },
+    {
+      "name": "Sophie Anderson",
+      "story": "Nulla facilisi. Nullam hendrerit nunc nec neque suscipit, eget vestibulum quam tincidunt.",
+      "description": "Sophie Anderson needs funds for her upcoming surgery.",
+      "supporters": ["Liam", "Mia"],
+      "required_money": 10000,
+      "collected_money": 3000,
+      "filename": "sophie_anderson.jpg",
+      "created": "2024-03-17",
+      "createdBy": "Admin8"
+    }
+  ]
+  
