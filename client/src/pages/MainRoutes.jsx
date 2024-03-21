@@ -2,18 +2,12 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import ContactUs from "./ContactUs";
 import Donate from "./Donate";
-// import Lend from "./Lend";
 import Notices from "./Notices";
 import Home from "./Home";
-
 import Signup from "./Signup";
-
 import LendingPayment from "./LendingPaymentPage/LendingPayment";
-
 import SingleLend from "../components/lend/SingleLend";
-
 import Login from "./Login";
-
 import SingleDonate from "../components/donate/SingleDonate";
 import SuccessPayment from "./SuccessPayment";
 import Review from "./Review";

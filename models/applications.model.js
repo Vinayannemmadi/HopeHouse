@@ -2,88 +2,70 @@ const mongoose=require('mongoose');
 
 const Application=mongoose.model('applications',new mongoose.Schema({
     fullname: {
-        type: String,
-        required: true
+        type: String
       },
       id: {
-        type: String,
-        required: true
+        type: String
       },
       gender: {
-        type: String,
-        required: true
+        type: String
       },
       email: {
-        type: String,
-        required: true
+        type: String
       },
       mobileNumber: {
-        type: Number,
-        required: true
+        type: Number
       },
       aadhaar: {
-        type: Number,
-        required: true
+        type: Number
       },
       dateOfBirth: {
-        type: String,
-        required: true
+        type: String
       },
       problem: {
-        type: String,
-        required: true
+        type: String
       },
       treatmentType: {
-        type: String,
-        required: true
+        type: String
       },
       estimatedCost: {
-        type: Number,
-        required: true
+        type: Number
       },
       houseNumber: {
-        type: String,
-        required: true
+        type: String
       },
       village: {
-        type: String,
-        required: true
+        type: String
       },
       mandal: {
-        type: String,
-        required: true
+        type: String
       },
       district: {
-        type: String,
-        required: true
+        type: String
       },
       state: {
-        type: String,
-        required: true
+        type: String
       },
       pincode: {
-        type: Number,
-        required: true
+        type: Number
       },
       fatherName: {
-        type: String,
-        required: true
+        type: String
       },
       parentPhoneNumber: {
-        type: Number,
-        required: true
+        type: Number
       },
       parentOccupation: {
-        type: String,
-        required: true
+        type: String
       },
       sourceOfIncome: {
-        type: String,
-        required: true
+        type: String
       },
       landDetails: {
-        type: String,
-        required: true
+        type: String
+      },
+      file:{
+        type:String
       }
 
 }));

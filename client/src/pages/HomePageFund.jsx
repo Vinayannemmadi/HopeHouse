@@ -4,8 +4,6 @@ import {
   Tabs,
   TabList,
   Tab,
-  TabPanel,
-  TabPanels,
   Image,
   Center,
   Menu,
@@ -13,12 +11,26 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import React from "react";
-import HomeDonate from "../components/HomeDonate.jsx";
+import React,{useState,useEffect} from "react";
+import axios from "axios";
+import DonateCard from "../components/donate/DonateCard";
 
 const HomePageFund = () => {
+  const [donates,setDonates]=useState([]);
+  useEffect(()=>{
+    const  getDonates=async ()=>{
+        try{
+          const {data}= await axios.get("http://localhost:5000/api/helprequest")
+            console.log(data);
+            setDonates(data);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+    getDonates();
+  },[]);
   return (
-    <Box m="auto">
+    <Box mt="50px">
       <Box mt={"12%"} mb={"4%"}>
         <Text as={"b"} fontSize={"22px"}>
           Thousands of people donate their money to HOPEHOUSE
@@ -99,21 +111,12 @@ const HomePageFund = () => {
               </Menu>
             </Tab>
           </TabList>
-
-          <TabPanels>
-            <TabPanel>
-              <HomeDonate s="1" e="6" />
-            </TabPanel>
-            <TabPanel>
-              <HomeDonate s="2" e="12" />
-            </TabPanel>
-            <TabPanel>
-              <HomeDonate s="13" e="18" />
-            </TabPanel>
-            <TabPanel>
-              <HomeDonate s="19" e="24" />
-            </TabPanel>
-          </TabPanels>
+            <Box m="20px" width="100%" display="flex" flexDirection="row" margin="auto"
+              justifyContent="center" alignItems="center" flexWrap="wrap" >
+              {donates && donates.map(donate => 
+                  <DonateCard donate={donate} key={donate._id}/>
+              )}
+            </Box>
         </Tabs>
       </Center>
     </Box>
@@ -121,3 +124,20 @@ const HomePageFund = () => {
 };
 
 export default HomePageFund;
+
+
+
+// <TabPanels>
+//             <TabPanel>
+//               <HomeDonate s="1" e="6" />
+//             </TabPanel>
+//             <TabPanel>
+//               <HomeDonate s="2" e="12" />
+//             </TabPanel>
+//             <TabPanel>
+//               <HomeDonate s="13" e="18" />
+//             </TabPanel>
+//             <TabPanel>
+//               <HomeDonate s="19" e="24" />
+//             </TabPanel>
+//           </TabPanels>

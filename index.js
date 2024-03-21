@@ -16,7 +16,9 @@ mongoose.connect("mongodb://localhost:27017/HopeHouse")
 
 const ApplicationRouter=require('./routes/applications.router');
 const userRouter=require('./routes/auth.router');
+const helprequestRouter=require('./routes/helprequests.router');
 
+app.use('/api/helprequest',helprequestRouter);
 app.use('/api/auth',userRouter);
 app.use('/api/application',ApplicationRouter);
 

@@ -16,4 +16,27 @@ router.post("/",async(req,res)=>{
     }
 });
 
+router.get('/', async(req,res)=>{
+    try{
+        const application= await Application.find();
+        res.send(application);
+    } catch(error){
+        console.log(error);
+        res.status(400).send('Error in fetching applications...');
+    }
+});
+router.delete('/',async(req,res)=>{
+    try{
+        console.log(req.body.id);
+        const helper=await Application.findOne({id:req.body.id});
+        if(helper){
+            let application= await Application.deleteOne({id:req.body.id});
+            return res.send(application);
+        }
+        return res.status(400).send("Application not found...");
+    } catch(error){
+        console.log(error);
+        res.status(400).send('Error in deleting Applications...');
+    }
+})
 module.exports=router;

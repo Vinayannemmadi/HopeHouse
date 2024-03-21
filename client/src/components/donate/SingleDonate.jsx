@@ -20,6 +20,8 @@ import { getDonate } from "../../store/AppReducer/action";
 import { BsWhatsapp, BsFacebook } from "react-icons/bs";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import DonateModal from "./../../pages/DonateModal";
+import axios from "axios";
+
 const SingleDonate = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
@@ -44,7 +46,22 @@ const SingleDonate = () => {
     bgSize: "100%",
     backgroundRepeat: "repeat-x",
   };
-
+  const [donatePerson,setDonate]=useState([]);
+  useEffect (()=>{
+      const getData = async ()=>{
+          axios.get(`http://localhost:5000/api/helprequest/${id}`)
+          .then((res)=>{
+              console.log(res.data);
+              setDonate(res.data);
+          })
+          .catch((err)=>{
+              console.log(err);
+          })
+      }
+      getData();
+  },[]);
+  let number = donatePerson.collected_money*100/donatePerson.required_money;
+  let percent = parseFloat(number.toFixed(1));
   return (
     <Box>
       <Flex
@@ -79,12 +96,12 @@ const SingleDonate = () => {
           <Flex m="20px 10px 10px 10px" justifyContent="space-between">
             <Flex>
               <CircularProgress
-                value={item["progress-circle"]}
+                value={percent}
                 color="green.300"
                 size="80px"
               >
                 <CircularProgressLabel>
-                  {item["progress-circle"]}%
+                  {percent}%
                 </CircularProgressLabel>
               </CircularProgress>
               <Stack textAlign="left" m="12px">
@@ -94,13 +111,13 @@ const SingleDonate = () => {
                     {item["raised-amount"]}
                   </Text>
                   <Text fontSize="lg" fontWeight="500">
-                    of Rs.5,00,000
+                    of {donatePerson.required_money}
                   </Text>
                 </Stack>
               </Stack>
             </Flex>
             <Button borderRadius="15px" m="20px">
-              <Link>72 suppporters</Link>
+              <Link>{donatePerson && donatePerson.supporters && donatePerson.supporters.length} suppporters</Link>
             </Button>
           </Flex>
           <Button
@@ -133,7 +150,7 @@ const SingleDonate = () => {
               </Box>
               <Box m="20px">
                 <Text fontSize="sm">Created by</Text>
-                <Text>{item["created-name"]}</Text>
+                <Text>{donatePerson.requestedBy}</Text>
               </Box>
             </Flex>
             <Flex border={"1px solid #e0e1e3"} w="300px">
@@ -143,9 +160,9 @@ const SingleDonate = () => {
                 </Text>
               </Box>
               <Box m="10px 5px 0px 0px">
-                <Text fontSize="sm">This fundraiser will benefit</Text>
-                <Text>{item["created-name"]}</Text>
-                <Text fontSize="sm">from Namakkal, Tamil Nadu</Text>
+                <Text fontSize="sm">Location</Text>
+                <Text>{donatePerson.village}</Text>
+                <Text fontSize="sm">{ donatePerson.district }</Text>
               </Box>
             </Flex>
           </Flex>
@@ -164,8 +181,7 @@ const SingleDonate = () => {
           </Box>
           <Box w="100%" mt="30px">
             <Text textAlign="left">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos modi, ut cupiditate ratione nisi voluptates veritatis accusamus praesentium asperiores.
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos modi, ut cupiditate ratione nisi voluptates veritatis accusamus praesentium asperiores.
+                {donatePerson.story}
             </Text>
           </Box>
           <Box
@@ -189,102 +205,33 @@ const SingleDonate = () => {
               </Heading>
             </Box>
             <Box>
-              <Flex>
-                <Box
-                  bg={"#eddae0"}
-                  borderRadius="50%"
-                  w="50px"
-                  h="50px"
-                  m="20px"
-                >
-                  <Text mt="12px">
-                    {item["created-name"] ? item["created-name"][0] : "A"}
-                  </Text>
-                </Box>
-                <Box padding="0px" w="400px">
-                  <Text fontSize="sm" textAlign="left" mt="22px">
-                    {item["created-name"]}
-                  </Text>
-                  <Text
-                    fontSize="sm"
-                    textAlign="left"
-                    borderBottom={"1px solid #ead0d8"}
+              {
+                donatePerson.supporters && donatePerson.supporters.length > 0 ? donatePerson.supporters.map(item => (
+                  <Flex>
+                  <Box
+                    bg={"#eddae0"}
+                    borderRadius="50%"
+                    w="50px"
+                    h="50px"
+                    m="20px"
                   >
-                    ₹1,000
-                  </Text>
-                </Box>
-              </Flex>
-              <Flex>
-                <Box
-                  bg={"#eddae0"}
-                  borderRadius="50%"
-                  w="50px"
-                  h="50px"
-                  m="20px"
-                >
-                  <Text mt="12px">A</Text>
-                </Box>
-                <Box padding="0px" w="400px">
-                  <Text fontSize="sm" textAlign="left" mt="22px">
-                    Anonymous
-                  </Text>
-                  <Text
-                    fontSize="sm"
-                    textAlign="left"
-                    borderBottom={"1px solid #ead0d8"}
-                  >
-                    ₹7,000
-                  </Text>
-                </Box>
-              </Flex>
-              <Flex>
-                <Box
-                  bg={"#eddae0"}
-                  borderRadius="50%"
-                  w="50px"
-                  h="50px"
-                  m="20px"
-                >
-                  <Text mt="12px">
-                    {item["created-name"] ? item["created-name"][0] : "A"}
-                  </Text>
-                </Box>
-                <Box padding="0px" w="400px">
-                  <Text fontSize="sm" textAlign="left" mt="22px">
-                    {item["created-name"]}
-                  </Text>
-                  <Text
-                    fontSize="sm"
-                    textAlign="left"
-                    borderBottom={"1px solid #ead0d8"}
-                  >
-                    ₹1,000
-                  </Text>
-                </Box>
-              </Flex>
-              <Flex>
-                <Box
-                  bg={"#eddae0"}
-                  borderRadius="50%"
-                  w="50px"
-                  h="50px"
-                  m="20px"
-                >
-                  <Text mt="12px">A</Text>
-                </Box>
-                <Box padding="0px" w="400px">
-                  <Text fontSize="sm" textAlign="left" mt="22px">
-                    Anonymous
-                  </Text>
-                  <Text
-                    fontSize="sm"
-                    textAlign="left"
-                    borderBottom={"1px solid #ead0d8"}
-                  >
-                    ₹10,315
-                  </Text>
-                </Box>
-              </Flex>
+                    <Text mt="12px">{item[0]}</Text>
+                  </Box>
+                  <Box padding="0px" w="400px">
+                    <Text fontSize="sm" textAlign="left" mt="22px">
+                      {item}
+                    </Text>
+                    <Text
+                      fontSize="sm"
+                      textAlign="left"
+                      borderBottom={"1px solid #ead0d8"}
+                    >
+                      ₹7,000 
+                    </Text>
+                  </Box>
+                </Flex>
+                )): "No supporters"}
+      
             </Box>
             <Link color={"#9c3353"}>View all supporters</Link>
           </Box>
