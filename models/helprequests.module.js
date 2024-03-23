@@ -57,8 +57,8 @@ const Helprequest=mongoose.model('helprequest',new mongoose.Schema({
       parentOccupation: {
         type: String
       },
-      sourceOfIncome: {
-        type: String
+      anualIncome: {
+        type: Number
       },
       landDetails: {
         type: String

@@ -319,7 +319,7 @@ const SingleDonate = () => {
           </Box>
         </Hide>
       </Flex>
-      <DonateModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      <DonateModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} id={id}/>
     </Box>
   );
 };

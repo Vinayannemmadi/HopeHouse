@@ -15,7 +15,9 @@ const DonateCard = ({ donate }) => {
                     flex:"wrap",alignItems:'center',flexDirection:"column"}}>
                     <div >
                       <Image style={{width:'200px', height:'200px'}} alt="photo"
-                        src="https://th.bing.com/th/id/R.5dda88978b2f6cafd45e710c4ac79126?rik=BDVCpHsmn6nKnA&riu=http%3a%2f%2fnode01.flagstat.net%2fmedia%2fimage%2f2836r.jpg&ehk=viCT090GtKsU2nuIWzK3ByIDbU0ONa116ip2WCOa1Ks%3d&risl=&pid=ImgRaw&r=0"/>
+                        // src="https://th.bing.com/th/id/R.5dda88978b2f6cafd45e710c4ac79126?rik=BDVCpHsmn6nKnA&riu=http%3a%2f%2fnode01.flagstat.net%2fmedia%2fimage%2f2836r.jpg&ehk=viCT090GtKsU2nuIWzK3ByIDbU0ONa116ip2WCOa1Ks%3d&risl=&pid=ImgRaw&r=0"
+                        src={donate.photo ? donate.photo:""} 
+                      />
                     </div>
                     <div style={{padding:"10px"}}>
                       <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit.Nesciunt repudiandae nisi.</h4>

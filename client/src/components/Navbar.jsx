@@ -10,7 +10,8 @@ import {
   Icon,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect ,useLocation} from "react";
+import { useEffect } from "react";
+import { useLocation } from 'react-router';
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { Link as Linked } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
@@ -25,24 +26,39 @@ export default function Navbar() {
   // const cartItems = useSelector((state) => state.cartReducer.cartItems);
   const cookie=new Cookies();
   const token=cookie.get('jwtToken');
+  const location=useLocation();
   const [username, setUsername] = React.useState(null);
-const GetUsername=()=> {
-  React.useEffect(() => {
-    (async () => {
+  useEffect(()=>{
+    const getData= async()=>{
       try{
-        if(!token)return ;
-        const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
-        { token });
-        console.log(data);
-        setUsername(data);
+         if(!token) return ;
+            const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
+            { token });
+            setUsername(data);
+        }
+        catch(error){
+          console.log(error);
+        }
       }
-      catch(error){
-        console.log(error);
-      }
-    })();
-  }, []);
-}
- GetUsername();
+    getData();
+  },[location.pathname])
+// const GetUsername=()=> {
+//   React.useEffect(() => {
+//     (async () => {
+//       try{
+//         if(!token)return ;
+//         const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
+//         { token });
+//         console.log(data);
+//         setUsername(data);
+//       }
+//       catch(error){
+//         console.log(error);
+//       }
+//     })();
+//   }, []);
+// }
+//  GetUsername();
 
 return (
     <Box
@@ -143,7 +159,6 @@ const DesktopNav = () => {
   let mapitems=[];
   if(token !== null && isAdmin !== null && isAdmin )
   {
-    console.log(isAdmin);
     mapitems=ADMIN_ITEMS;
   }
   else {
@@ -193,12 +208,12 @@ const ADMIN_ITEMS = [
     },
     {
       label: "Donating",
-      href: "/donate",
+      href: "/admindonate",
     },
     
     {
       label: "Requests",
-      href: "/apply",
+      href: "/adminapplications",
     },
     {
       label: "Recruitement List",

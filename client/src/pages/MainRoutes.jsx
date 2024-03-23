@@ -12,10 +12,14 @@ import SingleDonate from "../components/donate/SingleDonate";
 import SuccessPayment from "./SuccessPayment";
 import Review from "./Review";
 import GoogleAuth from "./GoogleAuth";
-import Application from "./Application";
+// import Application from "./Application";
+import Admindonate from './AdminDonate'
+import AdminApplication from './AdminApplications'
 import Support from "./Support";
 import Guidelines from "./Guidelines"
 import ApplicationForm from './ApplicationForm'
+import SingleAdminApplication from './SingleAdminApplication';
+import SingleAdminDonate from "./SingleAdminDonate";
 const MainRoutes = () => {
   return (
     <Routes>
@@ -32,6 +36,10 @@ const MainRoutes = () => {
       <Route path="/google" element={<GoogleAuth />} />
       <Route path="/signUp" element={<Signup />} />
       <Route path="/Login" element={<Login />} />
+      <Route path="/admindonate" element={<Admindonate />} />
+      <Route path="/admindonate/:id" element={<SingleAdminDonate />} />
+      <Route path="/adminapplications" element={<AdminApplication />} />
+      <Route path="/adminapplications/:id" element={<SingleAdminApplication />} />
       <Route path="/lendingPayment" element={<LendingPayment />} />
       <Route path="/successPayment" element={<SuccessPayment />} />
     </Routes>

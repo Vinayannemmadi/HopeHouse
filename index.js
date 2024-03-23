@@ -2,7 +2,10 @@ const express=require('express');
 const mongoose=require('mongoose');
 const cors=require('cors');
 const app=express();
-app.use(express.json());
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(express.json({ limit: '100mb' })); // Adjust the limit as needed
+
 
 app.use(cors({ origin:"http://localhost:3000"}));
 app.use((req, res, next) => {

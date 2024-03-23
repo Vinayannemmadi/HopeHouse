@@ -49,7 +49,7 @@ const Login = () => {
     }
     catch(error){
       console.log(error.response.data);
-      toast.error(error.response.data);
+      // toast.error(error.response.data);
     }
     // dispatch(login(data)).then((d) => {
     //   if (d.type == types.LOGIN_SUCCESS) {

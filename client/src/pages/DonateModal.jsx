@@ -15,13 +15,44 @@ import {
   Input,
   Switch,
 } from "@chakra-ui/react";
-import React from "react";
+import axios from "axios";
+import React,{useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Cookies from "universal-cookie";
 const DonateModal = ({ isOpen, onOpen, onClose }) => {
+  const [amount,setAmount]=useState(0);
+  const [sponsor,setSponsor]=useState('');
   const navigate = useNavigate();
-  const clickHandler = () => {
+  const {id}=useParams();
+  const cookie=new Cookies();
+  const token=cookie.get('jwtToken');
+  
+    useEffect(()=>{
+      const getData= async()=>{
+        try{
+          if(!token) return ;
+              const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
+              { token });
+              setSponsor(data);
+          }
+          catch(error){
+            console.log(error);
+          }
+        }
+    getData();
+  } ,[])
+  const clickHandler = async () => {
+    try{
+        const {data}=await axios.put("http://localhost:5000/api/helprequest/updateAmount",
+          {id:id,amount:amount,sponsor:sponsor});
+        console.log(data);
+    } catch (error) {
+
+    }
     navigate("/successPayment");
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -45,7 +76,7 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
               </Box>
               <Box m={"2% 10px"}>
                 <label>Amount</label>
-                <Input mt={"3%"} type="number" />
+                <Input type="number" mt={"3%"}onChange={(e)=>setAmount(e.target.value)}/>
               </Box>
             </Flex>
           </Box>
@@ -56,7 +87,7 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
           <Box textAlign={"justify"} bgColor={"#f5f5f5"}>
             <br />
             <Text fontSize={"14px"}>
-              Milaap charges NO fees. We rely on donors like you to cover for
+              HopeHouse charges NO fees. We rely on donors like you to cover for
               our expenses. Kindly consider a tip. Thank you 🙏
             </Text>
             <Flex
@@ -79,7 +110,7 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
             <Text mb="0" mr={"4%"}>
               Donate anonymously
             </Text>
-            <Switch mt={"3%"} colorScheme={"pink"} />
+            <Switch mt={"3%"} colorScheme={"pink"} onChange={()=>setSponsor('Anonymous')} />
           </Box>
           <Center>
             <Box mt={"8%"}>
@@ -90,7 +121,7 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
                 color={"white"}
                 onClick={clickHandler}
               >
-                Continue to pay ₹2875{" "}
+                Continue to pay ₹{amount}{" "}
               </Button>
             </Box>
           </Center>
