@@ -52,11 +52,13 @@ router.put('/:id',async(req,res)=>{
         res.status(400).send('Error in updating Application...');
     }
 });
-router.delete('/',async(req,res)=>{
+router.delete('/:id',async(req,res)=>{
     try{
-        const helper=await Application.findOne({id:req.body.id});
+        const {id}=req.params;
+        console.log("application id: ",id);
+        const helper=await Application.findOne({_id:id});
         if(helper){
-            let application= await Application.deleteOne({id:req.body.id});
+            let application= await Application.deleteOne({_id:id});
             return res.send(application);
         }
         return res.status(400).send("Application not found...");

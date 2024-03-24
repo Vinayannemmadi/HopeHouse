@@ -18,9 +18,11 @@ const AdminApplication = () => {
     },[]);
     const handleDelete =async(id)=>{
         console.log(id);
-
         try{
-            await axios.delete(`http://localhost:5000/api/application`,{id:id})
+            await axios.delete(`http://localhost:5000/api/application/${id}`);
+            const newPosts = posts.filter((post) => post._id !== id);
+            console.log(newPosts);
+            setPosts(newPosts);
         } catch (error) {
             console.log(error);
         }

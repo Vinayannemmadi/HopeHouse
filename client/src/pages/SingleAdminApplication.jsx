@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "universal-cookie";
 const SingleAdminApplication = () => {
     const navigate=useNavigate();
+    const cookie=new Cookies();
+    const token=cookie.get('jwtToken');
+    const [requestedBy,setRequestedBy]=useState([]);
     const [application,setApplication]=useState({
         aadhaar:0,
         anualIncome:0,
@@ -30,14 +33,26 @@ const SingleAdminApplication = () => {
         photoOfPatient:"",
         pincode:0,
         required_money:0,
+        requestedBy:'',
         story:"",
         state:"",
         supporters:[],
         treatmentType:"",
         village:"",
 
-
     });
+    useEffect(()=>{
+        const getData=async()=>{
+            try{
+                const {data}=await axios.get(`http://localhost:5000/api/auth/getusername/`,{token});
+                console.log(data);
+                setRequestedBy(data);
+                // setApplication(...application,requestedBy:data);
+            } catch (error){
+                console.log(error);
+            }
+        }
+    })
     const {id}=useParams();
     useEffect(()=>{
         const getData=async()=>{
@@ -110,6 +125,9 @@ const SingleAdminApplication = () => {
               <Label>Estimated Cost:</Label>
               <Input type="number" placeholder="ex:10,000" 
                   value={application.estimatedCost} onChange={(e)=>setApplication({...application,estimatedCost:e.target.value})}/>
+              <Label>Requested By:</Label>
+              <Input type="text" placeholder="ex: Ganesh" 
+                  value={application.requestedBy} onChange={(e)=>setApplication({...application,requestedBy:e.target.value})}/>
               </form>
           </RegistrationForm>
           {/* address info */}
@@ -151,7 +169,7 @@ const SingleAdminApplication = () => {
                   value={application.parentOccupation} onChange={(e)=>setApplication({...application,parentOccupation:e.target.value})}/>
               <Label>Anual Income:</Label>
               <Input type="number" placeholder="ex:200000/year" 
-                  value={application.anualIncome} onChange={(e)=>setApplication({...application,sourceOfIncome:e.target.value})}/>
+                  value={application.anualIncome} onChange={(e)=>setApplication({...application,anualIncome:e.target.value})}/>
               <Label>Land Details:</Label>
               <Input type="text" placeholder="own/rent mention if any" 
                   value={application.landDetails} onChange={(e)=>setApplication({...application,landDetails:e.target.value})}/>

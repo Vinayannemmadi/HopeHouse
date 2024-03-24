@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from "universal-cookie";
+
 import { FormContainer,FormGroup,Label,Input,Button } from './styledApplication';
 const  ApplicationForm=()=> {
   const navigate=useNavigate();
@@ -31,23 +33,29 @@ const  ApplicationForm=()=> {
         pincode:0,
         story:"",
         required_money:0,
+        requestedBy:"",
         state:"",
         supporters:[],
         treatmentType:"",
         village:""
     }
     )
-    
+    const cookie=new Cookies();
+    const token=cookie.get('jwtToken');
   const handleSubmit=async()=>{
-    console.log(application);
     try{
+      if(!token)return ;
+      const  userName = await axios.post('http://localhost:5000/api/auth/getusername', 
+      { token });
+      console.log(userName);
+      setApplication({...application,requestedBy:userName.data});
       const {data}=await axios.post('http://localhost:5000/api/application',application);
-      console.log(data);
       alert("submitted successfully");
+      navigate("/");
+      return ;
     } catch(error) {
       console.log(error);
     }
-    navigate('/');
   }
 
   const handleBillPhoto=(e)=>{
@@ -58,6 +66,7 @@ const  ApplicationForm=()=> {
       setApplication({...application,billPhoto:reader.result});
     }
   };
+
   const handlePhto=(e)=>{
     const file=e.target.files[0];
     const reader= new FileReader();
@@ -231,8 +240,8 @@ const  ApplicationForm=()=> {
           id="estimatedCost"
           required={true}
           name="estimatedCost"
-          value={application.estimatedCost}
-          onChange={(e) => setApplication({...application, estimatedCost: e.target.value})}
+          value={application.required_money}
+          onChange={(e) => setApplication({...application, required_money: e.target.value})}
         />
       </FormGroup>
       </FormContainer>
@@ -349,8 +358,8 @@ const  ApplicationForm=()=> {
             id="sourceOfIncome"
             required={true}
             name="sourceOfIncome"
-            value={application.sourceOfIncome}
-            onChange={(e) => setApplication({...application, sourceOfIncome: e.target.value})}
+            value={application.anualIncome}
+            onChange={(e) => setApplication({...application, anualIncome: e.target.value})}
           />
         </FormGroup>
         <FormGroup>
@@ -365,7 +374,8 @@ const  ApplicationForm=()=> {
           />
         </FormGroup>
       </FormContainer>
-    <Button onClick={handleSubmit}>Submit</Button>
+
+    <Button >Submit</Button>
     </form>
   </div>
   )

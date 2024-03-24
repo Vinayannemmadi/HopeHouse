@@ -18,9 +18,11 @@ const AdminDonate = () => {
     },[]);
     const handleDelete =async(id)=>{
         console.log(id);
-
         try{
-           await axios.delete(`http://localhost:5000/api/helprequest`,{id:id})
+            await axios.delete(`http://localhost:5000/api/helprequest/${id}`);
+            const newPosts = posts.filter((post) => post._id !== id);
+            console.log(newPosts);
+            setPosts(newPosts);
         } catch (error) {
             console.log(error);
         }

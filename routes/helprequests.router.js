@@ -81,11 +81,14 @@ router.put('/:id',async(req,res)=>{
         res.status(400).send('Error in updating helprequests...');
     }
 });
-router.delete('/',async(req,res)=>{
+
+router.delete('/:id',async(req,res)=>{
     try{
-        const helper=await Helprequest.findOne({_id:req.body.id});
+        const {id}=req.params;
+        console.log(req.params);
+        const helper=await Helprequest.findOne({_id:id});
         if(helper){
-            let helprequest= await Helprequest.deleteOne({_id:req.body.id});
+            let helprequest= await Helprequest.deleteOne({_id:id});
             return res.send(helprequest);
         }
         return res.status(400).send("Helprequest not found...");
