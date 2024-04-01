@@ -14,17 +14,17 @@ import {
 }from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import * as types from "./../store/AuthReducer/actionTypes";
+// import * as types from "./../store/AuthReducer/actionTypes";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { login } from "../store/AuthReducer/actions";
+// import { login } from "../store/AuthReducer/actions";
 import axios from "axios";
 import Cookies from 'universal-cookie';
-
+import {auth,provider} from '../config';
+import { signInWithPopup } from "firebase/auth";
+import image from '../public/hopehouse.png';
 const Login = () => {
-  const dispatch = useDispatch();
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -33,8 +33,13 @@ const Login = () => {
   const navigate = useNavigate();
   const cookies=new Cookies();
   const token=cookies.get('jwtToken');
+
   const googleHandler = () => {
-    window.location.href = "#";
+    signInWithPopup(auth,provider).then((d)=>{
+      setData({password:d.user.password,email:d.user.email});
+      localStorage.setItem("email",data.user.email)
+    })
+      console.log(data);
   };
 
   const formsubmit = async (e) => {
@@ -80,7 +85,7 @@ const Login = () => {
     >
       <Box
         w="1070px"
-        h="560px"
+        h="660px"
         style={{ marginLeft: "10px" }}
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
@@ -89,22 +94,22 @@ const Login = () => {
       >
         <HStack spacing="34px">
           <Stack w="110px" h="110px" marginLeft={8}>
-            <Box
-              w="110px"
-              h="150px"
+            <Box             
               style={{
-                backgroundColor: "#9C3353",
-                borderRadius: "50%",
+                // backgroundColor: "#9C3353",
+                // borderRadius: "50%",
                 padding: "15px",
                 marginLeft: "10px",
+                height:"240px",
+                width:"240px"
               }}
             >
               <img
                 alt="img"
-                src="https://assets.milaap.org/assets/milaap-trasparent-logo-25f6253e0156e2f82e2c3daf85575d169864e35ffffd21033ac59da0b4dd88e0.png"
+                src={image}
               />
             </Box>
-            <Stack w="190px" h="110px" style={{ marginLeft: "-50px" }}>
+            <Stack w="190px" h="110px" style={{ marginLeft: "50px",marginBottom:"50px" }}>
               <h1 style={{ fontSize: "19px" }}>Welcome to HopeHouse,<br />
               Please take a step to change one's life</h1>
               <h6 style={{ fontSize: "13px", color: "grey", marginTop: "1px" }}>
@@ -135,7 +140,7 @@ const Login = () => {
                 Quickly login using
               </h1>
 
-              <Button onClick={googleHandler} leftIcon={<FcGoogle />}>
+              <Button onClick={()=>googleHandler()} leftIcon={<FcGoogle />}>
                 Google
               </Button>
             </Box>
@@ -209,10 +214,9 @@ const Login = () => {
                 Forgot Password?
               </Text>
             </Stack>
-
             <Stack pt={6}>
               <Text align={"center"}>
-                New to Milaap? Sign up now, it’s quick & free{" "}
+                New to HopeHouse? Sign up now, it’s quick & free{" "}
                 <Link to="/Signup">
                   <Button
                     size="md"

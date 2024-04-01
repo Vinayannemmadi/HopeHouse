@@ -124,7 +124,7 @@ const SingleAdminApplication = () => {
                   value={application.treatmentType} onChange={(e)=>setApplication({...application,treatmentType:e.target.value})}/>
               <Label>Estimated Cost:</Label>
               <Input type="number" placeholder="ex:10,000" 
-                  value={application.estimatedCost} onChange={(e)=>setApplication({...application,estimatedCost:e.target.value})}/>
+                  value={application.required_money} onChange={(e)=>setApplication({...application,required_money:e.target.value})}/>
               <Label>Requested By:</Label>
               <Input type="text" placeholder="ex: Ganesh" 
                   value={application.requestedBy} onChange={(e)=>setApplication({...application,requestedBy:e.target.value})}/>

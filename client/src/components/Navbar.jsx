@@ -1,35 +1,32 @@
 import {
   Box,
-  Flex,
-  IconButton,
-  // Button,
-  HStack,
   Stack,
   useColorModeValue,
   Image,
-  Icon,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useLocation } from 'react-router';
-import { HiOutlineUserCircle } from "react-icons/hi";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from 'react-router';
 import { Link as Linked } from "react-router-dom";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import React from "react";
-import CartModal from "./Cart/CartModal";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import {ImCross} from 'react-icons/im';
+import {IoMenu} from 'react-icons/io5';
 
-
+let isSideMenu=false;
 export default function Navbar() {
-  const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
-  // const cartItems = useSelector((state) => state.cartReducer.cartItems);
   const cookie=new Cookies();
   const token=cookie.get('jwtToken');
   const location=useLocation();
+  const [logname,setLogname]=useState('Login');
   const [username, setUsername] = React.useState(null);
+  const navigate=useNavigate();
   useEffect(()=>{
     const getData= async()=>{
+      if(token){
+        setLogname('Logout');
+      }
       try{
          if(!token) return ;
             const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
@@ -41,113 +38,114 @@ export default function Navbar() {
         }
       }
     getData();
-  },[location.pathname])
-// const GetUsername=()=> {
-//   React.useEffect(() => {
-//     (async () => {
-//       try{
-//         if(!token)return ;
-//         const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
-//         { token });
-//         console.log(data);
-//         setUsername(data);
-//       }
-//       catch(error){
-//         console.log(error);
-//       }
-//     })();
-//   }, []);
-// }
-//  GetUsername();
+  },[location.pathname,token])
 
+   const setLog=()=>{
+      if(logname==='Login'){
+        console.log(logname);
+        setSideMenuOpen(false);
+        navigate('/Login');
+      }
+      else{
+        console.log(logname);
+        cookie.remove('jwtToken','isAdmin');
+        setSideMenuOpen(false);
+        navigate('/Login');
+      }
+   }
+  const [isSideMenuOpen,setSideMenuOpen]=useState(false);
+  const routing=(router)=>{
+      setSideMenuOpen(false);
+      navigate(router);
+  }
+  const handleSideMenu=()=>{
+    setSideMenuOpen(!isSideMenuOpen);
+  }
+  const isAdmin=cookie.get('isAdmin');
+  let mapItems=[];
+  if(token && isAdmin ){
+    mapItems=ADMIN_ITEMS;
+  }
+  else{
+    mapItems=NAV_ITEMS;
+  }
 return (
-    <Box
-      width={"100%"}
-      zIndex={"sticky"}
-      marginBottom={"40px"}
-      position={"fixed"}
-      top={0}
-      left={0}
-      right={0}
-    >
-      <Flex
-        bg={useColorModeValue("white", "gray.800")}
-        color={useColorModeValue("gray.600", "white")}
-        minH={"90px"}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={"none"}
-        boxShadow={"0 0 30px 0 rgb(156 51 83 / 20%);"}
-        paddingRight="35px"
-        paddingLeft="35px"
-        borderStyle={"solid"}
-        margin={"-10px 0 -5px 0"}
-        paddingBottom={"-8px"}
-        borderColor={useColorModeValue("gray.200", "gray.900")}
-        align={"center"}
-      >
-        <Flex
-          flex={{ base: 1, md: "auto" }}
-          ml={{ base: -2 }}
-          display={{ base: "flex", md: "none" }}
-        >
-          <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={"ghost"}
-            aria-label={"Toggle Navigation"}
-          />
-        </Flex>
-        <Flex
-          flex={{ base: 1 }}
-          justify={{ base: "center", md: "start" }}
-          align={"center"}
-        >
-          <Linked to="/">
-            <Image
-              height="70px"
+      
+      <div style={
+        {display:'flex',justifyContent:'space-between',
+        alignItems:'center',marginTop:'0px',position:'fixed'
+        ,zIndex:'10',top:0,right:0,left:0,boxShadow:' 10px 10px 10px rgba(0, 0, 0, 0.7)',
+        backgroundColor:'white'}}>
+         <Linked to="/">
+             <Image
+              height="90px"
               src="pavan.png"
+              marginLeft='20px'
             />
-          </Linked>
+          </Linked>            
+        <DesktopNav/>
+        <div style={{margin:'2rem', display:"flex", flexDirection:"row"}}>
+        {username && <h1 style={{fontSize:"20px",color:'black'}}>{username}</h1>}
+          <button style={{color:"white",fontSize:"20px",
+                  margin:"0 10px",backgroundColor:" #9C3551",
+                  padding:"2px 16px",borderRadius:"6px"}}
+                   onClick={()=>setLog()}>
+                {logname}
+          </button>
+          <MenuButton onClick={()=>setSideMenuOpen(true)}>
+            <IoMenu style={{color:"black",fontSize:"34px"}} />
+          </MenuButton>
+        </div>
+        <SideMenu open={isSideMenuOpen}>
+        <ImCross style={{display:'flex',justifyContent:'flex-start',marginBottom:20,
+             marginTop:20,marginLeft:'auto',marginRight:20,cursor:'pointer',
+               alignItems:'flex-end'}} onClick={()=>setSideMenuOpen(false)}/>
+        {
+          mapItems.map((navItem)=>{
+            return(
+              <SideMenuItemContainer key={navItem.label}>
+                <SideMenuItem onClick={() => routing(navItem.href)}>{navItem.label}</SideMenuItem>
+              </SideMenuItemContainer>
+            )
+          })
+        }
+        <SideMenuItemContainer>
+            <SideMenuItem onClick={()=>setLog()}>
+                {logname}
+            </SideMenuItem>
+        </SideMenuItemContainer>
+    </SideMenu>
+        {/* <SideMenu open={isSideMenuOpen}>
+         <SideMenuItems>
+             <ImCross style={{display:'flex',justifyContent:'flex-start',marginBottom:20,
+             marginTop:20,marginLeft:'auto',marginRight:20,cursor:'pointer',
+               alignItems:'flex-end'}} onClick={()=>setSideMenuOpen(false)}/>
+             <SideMenuItemContainer>
+               <SideMenuItem onClick={() => routing('')}> Home</SideMenuItem>
+             </SideMenuItemContainer>
+           <SideMenuItemContainer>
+               <SideMenuItem onClick={() => routing('/donate')}> Donate</SideMenuItem>
+           </SideMenuItemContainer>
+           <SideMenuItemContainer>
+               <SideMenuItem onClick={() => routing('/apply')}> Ask Help</SideMenuItem>
+           </SideMenuItemContainer>
+           <SideMenuItemContainer>
+               <SideMenuItem onClick={() => routing('/notices')}> Notifications</SideMenuItem>
+          </SideMenuItemContainer>
+           <SideMenuItemContainer>
+               <SideMenuItem onClick={() => routing('/contactUs')}> Contact us</SideMenuItem>
+           </SideMenuItemContainer>
+          <SideMenuItemContainer>
+              <SideMenuItem onClick={() => routing('/support')}>About</SideMenuItem>
+           </SideMenuItemContainer>            
+          <SideMenuItemContainer>
+            <SideMenuItem onClick={()=>setLog()}>
+                {logname}</SideMenuItem>
+            </SideMenuItemContainer>
+         </SideMenuItems>
+        </SideMenu> */}
+      </div>
 
-          <Flex
-            display={{ base: "none", md: "none", lg: "flex" }}
-            justify="space-evenly"
-            height={"70px"}
-            ml={10}
-          >
-
-            <DesktopNav />
-          </Flex>
-        </Flex>
-
-        <HStack
-          height={"70px"}
-          maxWidth="fit-content"
-          justify="end"
-          spacing={"20"}
-          align={"center"}
-          flex="1"
-          p="0 10px"
-        >
-          {username?<h1 style={{fontSize:"20px",color:'black'}}>{username}</h1>:<Box>
-            <Linked to="/signUp">
-              <Icon
-                stroke="rgb(156, 51, 82)"
-                strokeWidth="1.5"
-                as={HiOutlineUserCircle}
-                w={"40px"}
-                h={"40px"}
-              />
-            </Linked>
-          </Box>
-          }
-        </HStack>
-      </Flex>
-      <CartModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
-    </Box>
   );
 }
 
@@ -166,41 +164,77 @@ const DesktopNav = () => {
   }
 
   return (
-    <Stack direction={"row"} spacing={7} align={"center"} height={"70px"}>
-      {mapitems.map((navItem) => (
-        <Box
-          bg={"white"}
-          height={"70px"}
-          align={"center"}
-          color={linkColor}
-          cursor="pointer"
-          padding={"20px 5px 0px 5px"}
-          _hover={{
-            textDecoration: "none",
-            height: "70px",
-            align: "center",
-            color: "white",
-            bg: "#9c3353",
-          }}
-          key={navItem.label}
-        >
+    <NavElements >
+      <Stack direction={"row"} spacing={7} align={"center"} height={"70px"}>
+        {mapitems.map((navItem) => (
           <Box
-            p={2}
-            fontSize={"16px"}
-            fontWeight={400}
+            bg={"white"}
+            height={"70px"}
+            align={"center"}
+            color={linkColor}
+            cursor="pointer"
+            padding={"20px 5px 0px 5px"}
             _hover={{
               textDecoration: "none",
+              height: "70px",
+              align: "center",
               color: "white",
+              bg: "#9c3353",
             }}
+            key={navItem.label}
           >
-            <Linked to={navItem.href}>{navItem.label}</Linked>
+            <Box
+              p={2}
+              fontSize={"16px"}
+              fontWeight={400}
+              _hover={{
+                textDecoration: "none",
+                color: "white",
+              }}
+            >
+              <Linked to={navItem.href}>{navItem.label}</Linked>
+            </Box>
           </Box>
-        </Box>
-      ))}
-    </Stack>
+        ))}
+      </Stack>
+    </NavElements>
+
   );
 };
-
+const Sidemenu=({open,routing})=>{
+  // const navigate=useNavigate();
+  const [isSideMenuOpen,setSideMenuOpen]=useState(false);
+  // const routing=(router)=>{
+  //     setSideMenuOpen(false);
+  //     navigate(router);
+  // }
+  const cookie=new Cookies();
+  const token=cookie.get('jwtToken');
+  const isAdmin=cookie.get('isAdmin');
+  let mapItems=[];
+  if(token && isAdmin ){
+    mapItems=ADMIN_ITEMS;
+  }
+  else{
+    mapItems=NAV_ITEMS;
+  }
+  return (
+    <SideMenu open={isSideMenuOpen}>
+        <ImCross style={{display:'flex',justifyContent:'flex-start',marginBottom:20,
+             marginTop:20,marginLeft:'auto',marginRight:20,cursor:'pointer',
+               alignItems:'flex-end'}} onClick={()=>setSideMenuOpen(false)}/>
+        {
+          mapItems.map((navItem)=>{
+            return(
+              <SideMenuItemContainer key={navItem.label}>
+                <SideMenuItem onClick={() => routing(navItem.href)}>{navItem.label}</SideMenuItem>
+              </SideMenuItemContainer>
+            )
+          })
+        }
+    </SideMenu>
+  )
+}
 const ADMIN_ITEMS = [
     {
       label: "Home",
@@ -239,10 +273,6 @@ const NAV_ITEMS = [
     href: "/apply",
   },
   {
-    label: "Recruitement",
-    href: "/guidelines",
-  },
-  {
     label: "Contact Us",
     href: "/support",
   },
@@ -251,3 +281,50 @@ const NAV_ITEMS = [
     href: "/notices",
   }
 ];
+
+export const SideMenu = styled.div`
+  position: fixed;
+  top: 0;
+  right: ${({ open }) => (open===true ? '0' : '-100%')}; /* Adjusted to slide in from right */
+  width: 250px;
+  height: 100%;
+  background-color:white;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 1);
+  transition: right 0.5s ease-in-out; /* Adjusted transition */
+`;
+export const SideMenuItems = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position:relative;
+`;
+export const SideMenuItem = styled.li`
+  padding: 1rem;
+  color: black;
+  cursor: pointer;
+  font-size:18px;
+  align-items:start;
+  text-align:start;
+  margin-left:16px;
+  &:hover {
+    color:white;
+  }
+`;
+export const SideMenuItemContainer=styled.div`
+ 
+  &:hover{
+    background-color:#9C3551;
+  }
+`;
+
+export const NavElements=styled.div`
+  @media (max-width:999px){
+    display:none;
+  }
+`;
+const MenuButton = styled.button`
+  display: none;
+  @media(max-width:999px){
+    display:flex;
+  }
+`

@@ -79,8 +79,9 @@ const SingleDonate = () => {
           </Box>
           <Heading fontSize="25px" fontWeight="500" textAlign="left" m="40px">
             {item.motivation}
+            <img src={donatePerson.photo} style={{width:"300px",height:"400px" , margin:'auto',borderRadius:10}}/>
           </Heading>
-          <Box
+          {/* <Box
             w="100%"
             sx={image}
             borderRadius="3px 3px 0px 0px"
@@ -92,7 +93,8 @@ const SingleDonate = () => {
                 {item["tax-ribbon"]}
               </Tag>
             ) : null}
-          </Box>
+            <img src={donatePerson.photo}/>
+          </Box> */}
           <Flex m="20px 10px 10px 10px" justifyContent="space-between">
             <Flex>
               <CircularProgress
@@ -226,7 +228,6 @@ const SingleDonate = () => {
                       textAlign="left"
                       borderBottom={"1px solid #ead0d8"}
                     >
-                      ₹7,000 
                     </Text>
                   </Box>
                 </Flex>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from "universal-cookie";
@@ -42,6 +42,18 @@ const  ApplicationForm=()=> {
     )
     const cookie=new Cookies();
     const token=cookie.get('jwtToken');
+  useEffect(()=>{
+    const getData=async()=>{
+      try{
+        const {data}=await axios.post(`http://localhost:5000/api/auth/getusername/`,{token});
+        console.log(data);
+        setApplication({...application,requestedBy:data});
+      } catch(error){
+        console.log(error);
+      }
+    }
+    getData();
+  },[]);
   const handleSubmit=async()=>{
     try{
       if(!token)return ;
@@ -52,7 +64,7 @@ const  ApplicationForm=()=> {
       const {data}=await axios.post('http://localhost:5000/api/application',application);
       alert("submitted successfully");
       navigate("/");
-      return ;
+      // return ;
     } catch(error) {
       console.log(error);
     }
@@ -352,7 +364,7 @@ const  ApplicationForm=()=> {
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="sourceOfIncome">Source of Income:</Label>
+          <Label htmlFor="sourceOfIncome">Annual Income:</Label>
           <Input
             type="text"
             id="sourceOfIncome"
