@@ -37,3 +37,42 @@
     transform: rotate(360deg);
   }
 }
+
+.input{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input label{
+  color: green;
+  font-weight: 400;
+  text-align: left;
+}
+.input input{
+  border-radius: 4px;
+  padding: 6px 4px;
+  min-width: 70%;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 2px 1px #fefefe, 1px 1px 2px 1px #222;
+}
+
+.regForm{
+  width: max-content;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 1px 1px 0px 1px #fefefe, 1px 1px 3px 1px #222;
+}
+
+.regForm .title{
+  padding: 5px;
+  background-color: green;
+}
+.regForm form {
+  display: flex;
+  flex-direction: column;
+  gap:.5rem;
+  padding: 15px;
+}
