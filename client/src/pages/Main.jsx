@@ -2,10 +2,10 @@ import React from 'react';
 import { useEffect,useState } from 'react';
 import './home.css'
 import axios from 'axios';
+import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { FormContainer,FormGroup,Label,Input } from './styledApplication';
-import { Button } from 'bootstrap';
+import { FormContainer,FormGroup,Label } from './styledApplication';
 // const notices = [
 //   "Interview schedule for P1 volunteers",
 //   "Selected list of core team from E2",
@@ -17,7 +17,7 @@ import { Button } from 'bootstrap';
 
 const Main=()=> {
 
-  const [search,setSearch]=useState("");
+  // const [search,setSearch]=useState("");
   const [notices,setNotices]=useState([]);
   const [popup,setPopup]=useState(false);
   const [noticeData,setNoticeData]=useState({
@@ -48,20 +48,37 @@ const Main=()=> {
         console.log(error);
       }
   }
-  let searchlist=notices;
+  const handleDelete=async(id)=>{
+    console.log(id);
+      try{
+          const {data}=await axios.delete(
+              `http://localhost:5000/api/notice/${id}`);
+          const filter=notices.filter((n)=> n._id!==id);
+          console.log(filter);
+          setNotices(filter);
+          console.log(data);
+      } catch(error){
+          console.log(error);
+      }
+  }
+  // let searchlist=notices;
   if(notices && notices.length>0){
       // searchlist = notices.filter(eachitem => eachitem.toLowerCase().includes(search));
   }
   return (
     
     <center>
-      <input type='text' onChange={(e)=>setSearch(e.target.value)} 
+      {/* <input type='text' onChange={(e)=>setSearch(e.target.value)} 
         value={search} placeholder="Search notices here..." 
-          className="inputfield" />
-      {Array.isArray(searchlist) && searchlist.map((eachitem) => 
+        style={{}}
+          className="inputfield" /> */}
+      {Array.isArray(notices) && notices.map((eachitem) => 
         <div key={eachitem._id} style={{marginTop:"50px",borderRadius:"10px",padding:"10px",
-          boxShadow:"2px 4px 10px  rgba(0,0,0,0.6)"}}>
+          boxShadow:"2px 4px 10px  rgba(0,0,0,0.6)",position:"relative"}}>
           <h1 style={{color:"#9C3353",fontSize:20,marginBottom:10}}>{eachitem.title}</h1>
+          {isAdmin && <button onClick={()=>handleDelete(eachitem._id)}><MdDelete style={{position:'absolute',right:20,
+            top:20,fontSize:26,color:'red'}} 
+            /></button>}
           {<p>{eachitem.content}</p>}
           <Link to="#" style={{color:'blue'}}>{eachitem.link}</Link>
         </div>
@@ -120,7 +137,7 @@ const Main=()=> {
         </FormContainer>
         </div>
       </div>
-      )}
+        )}
         {isAdmin && <button style={{marginTop:30,padding:"6px 30px",
           backgroundColor:"#9C3353",color:"white", borderRadius:6}}
           onClick={()=>setPopup(!popup)}

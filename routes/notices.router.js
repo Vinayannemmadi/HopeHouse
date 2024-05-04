@@ -20,4 +20,18 @@ router.post('/',async(req,res)=>{
     }
 });
 
+router.delete('/:id',async(req,res)=>{
+    try{
+        const {id}=req.params;
+        console.log(id);
+        if(!id) res.status(400).send("Invalid delete operation");
+        const notice=await Notice.findOne({_id:id});
+        if(!notice)res.status(400).send("This notice already been deleted");
+        const deleted=await Notice.findByIdAndDelete({_id:id});
+        res.send("Deleted");
+    } catch(error){
+            console.log(error);
+            res.status(400).send('Failed to delete notice!');
+    }
+})
 module.exports=router;

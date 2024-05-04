@@ -75,7 +75,8 @@ const Helprequest=mongoose.model('helprequest',new mongoose.Schema({
       status:String,
       story:String,
       discription:String,
-      supporters:[String]
+      supporters:[String],
+      screenshots:[String]
 }));
 
 module.exports=Helprequest;

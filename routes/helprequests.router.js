@@ -35,16 +35,19 @@ router.get('/:id',async (req,res) => {
 });
 
 router.put('/updateAmount',async(req,res)=>{
-    const {id,amount,sponsor}=req.body;
+    const {id,amount,sponsor,screenshot}=req.body;
+    console.log(req.body);
     if(!id || !amount || !sponsor ) return res.send("Service error!!")
     try{
         let helper=await Helprequest.findOne({_id:id});
         if(!helper) res.status(400).send("Unknown Help request...");
-        let col_money=parseInt(helper.collected_money);
-        col_money+=parseInt(amount);
+        //let col_money=parseInt(helper.collected_money);
+        //col_money+=parseInt(amount);
         let helprequest= await Helprequest.updateOne({_id:id},
-            {collected_money:col_money,
-                $push:{supporters:sponsor}});
+            {   
+                $push:{supporters:sponsor},
+                $push:{screenshots:screenshot}
+            });
         helper=await Helprequest.findOne({_id:id});
         return res.send(helper);
     } catch (error) {

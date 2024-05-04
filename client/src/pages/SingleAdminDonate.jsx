@@ -37,7 +37,7 @@ const SingleAdminDonate = () => {
         story:           "",
         discription:     "",
         supporters:"",
-
+        screenshots:[]
 
     });
     const navigate=useNavigate();
@@ -63,7 +63,6 @@ const SingleAdminDonate = () => {
         // e.preventDefault();
         console.log('handleSubmit..')
         try{
-
             const {data}=await axios.put(`http://localhost:5000/api/helprequest/${id}`,application);
             console.log(data);
             navigate('/admindonate');
@@ -109,13 +108,17 @@ const SingleAdminDonate = () => {
                     <form>
                     <Label>Problem:</Label>
                     <Input type="text" placeholder="Problem" 
-                        value={application.problem} onChange={(e)=>setApplication({...application,problem:e.target.value})}/>
+                        value={application.story} onChange={(e)=>setApplication({...application,problem:e.target.value})}/>
                     <Label>Type of Treatment:</Label>
                     <Input type="text" placeholder="ex: surgery, opeation etc" 
                         value={application.treatmentType} onChange={(e)=>setApplication({...application,treatmentType:e.target.value})}/>
                     <Label>Estimated Cost:</Label>
                     <Input type="number" placeholder="ex:10,000" 
-                        value={application.estimatedCost} onChange={(e)=>setApplication({...application,estimatedCost:e.target.value})}/>
+                        value={application.required_money} onChange={(e)=>setApplication({...application,estimatedCost:e.target.value})}/>
+                    <Label>Collected Money:</Label>
+                    <Input type="number" placeholder="ex:10,000" 
+                        value={application.collected_money} onChange={(e)=>setApplication({...application,collected_money:e.target.value})}/>
+                    
                     </form>
                 </RegistrationForm>
                 {/* address info */}
@@ -167,6 +170,12 @@ const SingleAdminDonate = () => {
             <button className="btn btn-primary" 
                 style={{width:400, marginTop:30,marginBottom:50}}
                 onClick={handleSubmit} >Update</button>
+            <br></br>
+            <div>
+                {application.screenshots.map((m)=>(
+                    <img src={m} alt="" style={{height:400,width:260 ,margin:30 ,borderRadius:10}}/>
+                ))}
+            </div>
         </div>
     )                       
 }

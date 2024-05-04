@@ -90,12 +90,12 @@ const  ApplicationForm=()=> {
   return (
     <div style={{borderRadius:20,padding:20,border:".5px solid black",
       marginBottom:100}}>
-      <h1 style={{textAlign:'center', color:'#9C3551', fontSize:30}}>APPLICATION FORM</h1>
+      <h1 style={{textAlign:'center', color:'#9C3551', fontSize:40, fontWeight:'bold'}}>APPLICATION FORM</h1>
 
       <form onSubmit={handleSubmit}>
 
       <FormContainer>
-        <h1>Personal Information</h1>
+        <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Personal Information</h1>
         <FormGroup>
           <Label htmlFor="fullname">Full Name:</Label>
           <Input
@@ -200,7 +200,7 @@ const  ApplicationForm=()=> {
       </FormContainer>
 
       <FormContainer>
-      <h1>Medical Details</h1>
+      <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Medical Details</h1>
       <FormGroup>
         <Label htmlFor="problem">Problem:</Label>
         <textarea
@@ -259,7 +259,7 @@ const  ApplicationForm=()=> {
       </FormContainer>
 
       <FormContainer>
-        <h1>Address Details</h1>
+        <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Address Details</h1>
         <FormGroup>
           <Label htmlFor="houseNumber">House Number:</Label>
           <Input
@@ -329,7 +329,7 @@ const  ApplicationForm=()=> {
       </FormContainer>
 
       <FormContainer>
-        <h1>Family Information</h1>
+        <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Family Information</h1>
         <FormGroup>
           <Label htmlFor="fatherName">Father Name:</Label>
           <Input

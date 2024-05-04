@@ -23,6 +23,7 @@ import Cookies from "universal-cookie";
 const DonateModal = ({ isOpen, onOpen, onClose }) => {
   const [amount,setAmount]=useState(0);
   const [sponsor,setSponsor]=useState('');
+  const [screenshot,setScreenshot]=useState('');
   const navigate = useNavigate();
   const {id}=useParams();
   const cookie=new Cookies();
@@ -45,13 +46,30 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
   const clickHandler = async () => {
     try{
         const {data}=await axios.put("http://localhost:5000/api/helprequest/updateAmount",
-          {id:id,amount:amount,sponsor:sponsor});
+          {id:id,amount:amount,sponsor:sponsor,screenshot:screenshot});
         console.log(data);
     } catch (error) {
 
     }
     navigate("/successPayment");
   };
+  // const handleBillPhoto=(e)=>{
+  //   const file=e.target.files[0];
+  //   const reader=new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend=()=>{
+  //     setApplication({...application,billPhoto:reader.result});
+  //   }
+  // };
+  const handleScreenshot=(e)=>{
+      const file=e.target.files[0];
+      const reader=new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend=()=>{
+        setScreenshot(reader.result);
+      }
+      console.log("screenshot",screenshot);
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -96,14 +114,8 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
               gap={"10%"}
               justifyContent={"space-beetween"}
             >
-              <label>Include a tip of</label>
-              <Select w={"50%"} mb={"6%"}>
-                <option>8 % (₹ 200.00)</option>
-                <option>10 % (₹ 250.00)</option>
-                <option>12 % (₹ 300.00)</option>
-                <option>15 % (₹ 375.00)</option>
-                <option>other</option>
-              </Select>
+             <label>Add Screen shot</label>
+             <input type="file" onChange={handleScreenshot}/>
             </Flex>
           </Box>
           <Box display="flex" alignItems="center">
