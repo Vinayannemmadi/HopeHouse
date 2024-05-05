@@ -37,7 +37,7 @@ export default function Signup() {
     e.preventDefault();
     try{
     //write code for signup using axios post method
-    const {data}=await axios.post('http://localhost:5000/api/auth/signup',
+    const {data}=await axios.post('http://localhost:5001/api/auth/signup',
     {username:cred.fullname,email:cred.email,password:cred.password});
     console.log(data);
     navigate("/Login");

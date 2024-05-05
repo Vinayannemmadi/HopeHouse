@@ -1,3 +1,4 @@
+const { verify } = require('jsonwebtoken');
 const mongoose=require('mongoose');
 const Helprequest=mongoose.model('helprequest',new mongoose.Schema({
     fullname: {
@@ -76,7 +77,8 @@ const Helprequest=mongoose.model('helprequest',new mongoose.Schema({
       story:String,
       discription:String,
       supporters:[String],
-      screenshots:[String]
+      screenshots:[String],
+      verified: [Boolean]
 }));
 
 module.exports=Helprequest;

@@ -3,6 +3,8 @@ import {
   Stack,
   useColorModeValue,
   Image,
+  Text,
+  textDecoration,
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -29,7 +31,7 @@ export default function Navbar() {
       }
       try{
          if(!token) return ;
-            const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
+            const { data } = await axios.post('http://localhost:5001/api/auth/getusername', 
             { token });
             setUsername(data);
         }
@@ -50,6 +52,8 @@ export default function Navbar() {
         console.log(logname);
         cookie.remove('jwtToken','isAdmin');
         setSideMenuOpen(false);
+        setUsername(null)
+        setLogname('Login')
         navigate('/Login');
       }
    }
@@ -167,6 +171,7 @@ const DesktopNav = () => {
     <NavElements >
       <Stack direction={"row"} spacing={7} align={"center"} height={"70px"}>
         {mapitems.map((navItem) => (
+          <Linked to={navItem.href} style={{textDecoration: "none"}}>
           <Box
             bg={"white"}
             height={"70px"}
@@ -180,21 +185,24 @@ const DesktopNav = () => {
               align: "center",
               color: "white",
               bg: "#9c3353",
+              borderRadius:"4px",
             }}
             key={navItem.label}
           >
+            
             <Box
               p={2}
               fontSize={"16px"}
               fontWeight={400}
               _hover={{
                 textDecoration: "none",
-                color: "white",
+                color: "white"
               }}
             >
-              <Linked to={navItem.href}>{navItem.label}</Linked>
+              {navItem.label}
             </Box>
           </Box>
+          </Linked>
         ))}
       </Stack>
     </NavElements>
@@ -306,6 +314,7 @@ export const SideMenuItem = styled.li`
   align-items:start;
   text-align:start;
   margin-left:16px;
+  
   &:hover {
     color:white;
   }
@@ -314,6 +323,7 @@ export const SideMenuItemContainer=styled.div`
  
   &:hover{
     background-color:#9C3551;
+  
   }
 `;
 

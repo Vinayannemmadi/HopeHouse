@@ -36,7 +36,7 @@ router.get('/:id',async (req,res) => {
 
 router.put('/updateAmount',async(req,res)=>{
     const {id,amount,sponsor,screenshot}=req.body;
-    console.log(req.body);
+    console.log("body", req.body);
     if(!id || !amount || !sponsor ) return res.send("Service error!!")
     try{
         let helper=await Helprequest.findOne({_id:id});
@@ -46,7 +46,7 @@ router.put('/updateAmount',async(req,res)=>{
         let helprequest= await Helprequest.updateOne({_id:id},
             {   
                 $push:{supporters:sponsor},
-                $push:{screenshots:screenshot}
+                $push:{screenshots:screenshot},
             });
         helper=await Helprequest.findOne({_id:id});
         return res.send(helper);

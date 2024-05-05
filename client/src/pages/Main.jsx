@@ -28,7 +28,7 @@ const Main=()=> {
   useEffect(()=>{
     const getData=async ()=>{
       try{
-        const {data}=await axios.get('http://localhost:5000/api/notice');
+        const {data}=await axios.get('http://localhost:5001/api/notice');
           setNotices(data);
           console.log(data);
       } catch(error){
@@ -40,7 +40,7 @@ const Main=()=> {
   const handleSumbit=async()=>{
       try{
           const {data}=await axios
-            .post("http://localhost:5000/api/notice",noticeData);
+            .post("http://localhost:5001/api/notice",noticeData);
             console.log(data);
             setNotices([...notices,data]);
             setPopup(false);
@@ -52,7 +52,7 @@ const Main=()=> {
     console.log(id);
       try{
           const {data}=await axios.delete(
-              `http://localhost:5000/api/notice/${id}`);
+              `http://localhost:5001/api/notice/${id}`);
           const filter=notices.filter((n)=> n._id!==id);
           console.log(filter);
           setNotices(filter);

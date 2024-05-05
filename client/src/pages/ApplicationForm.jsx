@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from "universal-cookie";
 
-import { FormContainer,FormGroup,Label,Input,Button } from './styledApplication';
+import { FormContainer,FormGroup,Button } from './styledApplication';
 const  ApplicationForm=()=> {
   const navigate=useNavigate();
   
@@ -45,7 +45,7 @@ const  ApplicationForm=()=> {
   useEffect(()=>{
     const getData=async()=>{
       try{
-        const {data}=await axios.post(`http://localhost:5000/api/auth/getusername/`,{token});
+        const {data}=await axios.post(`http://localhost:5001/api/auth/getusername/`,{token});
         console.log(data);
         setApplication({...application,requestedBy:data});
       } catch(error){
@@ -57,11 +57,11 @@ const  ApplicationForm=()=> {
   const handleSubmit=async()=>{
     try{
       if(!token)return ;
-      const  userName = await axios.post('http://localhost:5000/api/auth/getusername', 
+      const  userName = await axios.post('http://localhost:5001/api/auth/getusername', 
       { token });
       console.log(userName);
       setApplication({...application,requestedBy:userName.data});
-      const {data}=await axios.post('http://localhost:5000/api/application',application);
+      const {data}=await axios.post('http://localhost:5001/api/application',application);
       alert("submitted successfully");
       navigate("/");
       // return ;
@@ -90,15 +90,17 @@ const  ApplicationForm=()=> {
   return (
     <div style={{borderRadius:20,padding:20,border:".5px solid black",
       marginBottom:100}}>
-      <h1 style={{textAlign:'center', color:'#9C3551', fontSize:40, fontWeight:'bold'}}>APPLICATION FORM</h1>
+        <div className='headText'>
+        <h1 style={{textAlign:'center', color:'#9C3551', fontSize:40, fontWeight:'bold' }}>APPLICATION FORM</h1>
+        </div>
+    
+      <form className='formsContainer'  onSubmit={handleSubmit}>
 
-      <form onSubmit={handleSubmit}>
-
-      <FormContainer>
+      <div className='applicationForm'>
         <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Personal Information</h1>
-        <FormGroup>
-          <Label htmlFor="fullname">Full Name:</Label>
-          <Input
+        <div className='input'>
+          <label htmlFor="fullname">Full Name:</label>
+          <input
             type="text"
             id="fullname"
             name="fullname"
@@ -106,10 +108,10 @@ const  ApplicationForm=()=> {
             value={application.fullname}
             onChange={(e) => setApplication({...application, fullname: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="id">ID:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="id">ID:</label>
+          <input
             type="text"
             id="id"
             name="id"
@@ -117,10 +119,12 @@ const  ApplicationForm=()=> {
             value={application.id}
             onChange={(e) => setApplication({...application, id: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label>Gender:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label>Gender:</label>
+          <div className='gender'>
+          <div className='radio'>
+          <input
             type="radio"
             required={true}
             id="male"
@@ -128,9 +132,11 @@ const  ApplicationForm=()=> {
             value="male"
             checked={application.gender === 'male'}
             onChange={(e) => setApplication({...application, gender: e.target.value})}
-          />
-          <Label htmlFor="male">Male</Label>
-          <Input
+          /><label htmlFor="male">Male</label>
+          </div>
+          
+         <div className='radio'>
+         <input
             type="radio"
             id="female"
             required={true}
@@ -138,10 +144,13 @@ const  ApplicationForm=()=> {
             value="female"
             checked={application.gender === 'female'}
             onChange={(e) => setApplication({...application, gender: e.target.value})}
-          />
-          <div >
-          <Label htmlFor="female">Female</Label>
-          <Input
+          />  
+           <label htmlFor="female">Female</label>
+         </div>
+
+          
+         <div className='radio'>
+         <input
             type="radio"
             id="other"
             name="gender"
@@ -150,12 +159,16 @@ const  ApplicationForm=()=> {
             checked={application.gender === 'other'}
             onChange={(e) => setApplication({...application, gender: e.target.value})}
             />
+            <label htmlFor="other">Other</label>
+         </div>
+          </div>
+          <div>
             </div>
-          <Label htmlFor="other">Other</Label>
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="email">Email:</Label>
-          <Input
+          
+        </div>
+        <div className="input">
+          <label htmlFor="email">Email:</label>
+          <input
             type="email"
             id="email"
             name="email"
@@ -163,10 +176,10 @@ const  ApplicationForm=()=> {
             value={application.email}
             onChange={(e) => setApplication({...application, email: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="mobileNumber">Mobile Number:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="mobileNumber">Mobile Number:</label>
+          <input
             type="number"
             required={true}
             id="mobileNumber"
@@ -174,10 +187,10 @@ const  ApplicationForm=()=> {
             value={application.mobileNumber}
             onChange={(e) => setApplication({...application, mobileNumber: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="aadhaar">Aadhaar Number:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="aadhaar">Aadhaar Number:</label>
+          <input
             type="text"
             id="aadhaar"
             name="aadhaar"
@@ -185,10 +198,10 @@ const  ApplicationForm=()=> {
             value={application.aadhaar}
             onChange={(e) => setApplication({...application, aadhaar: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="dateOfBirth">Date of Birth:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="dateOfBirth">Date of Birth:</label>
+          <input
             type="date"
             id="dateOfBirth"
             required={true}
@@ -196,13 +209,13 @@ const  ApplicationForm=()=> {
             value={application.dateOfBirth}
             onChange={(e) => setApplication({...application, dateOfBirth: e.target.value})}
           />
-        </FormGroup>
-      </FormContainer>
+        </div>
+      </div>
 
-      <FormContainer>
+      <div className='applicationForm'>
       <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Medical Details</h1>
-      <FormGroup>
-        <Label htmlFor="problem">Problem:</Label>
+      <div className="input">
+        <label htmlFor="problem">Problem:</label>
         <textarea
           type="textfield"
           id="problem"
@@ -213,30 +226,30 @@ const  ApplicationForm=()=> {
           placeholder='Enter problem in detail'
           onChange={(e) => setApplication({...application, story: e.target.value})}
         />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="hospitalBills">Hospital Bills:</Label>
-        <Input
+      </div>
+      <div className="input">
+        <label htmlFor="hospitalBills">Hospital Bills:</label>
+        <input
           type="file"
           id="hospitalBills"
           required={true}
           name="hospitalBills"
           onChange={handleBillPhoto}
         />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="photoOfPatient">Photo of Patient:</Label>
-        <Input
+      </div>
+      <div className="input">
+        <label htmlFor="photoOfPatient">Photo of Patient:</label>
+        <input
           type="file"
           required={true}
           id="photoOfPatient"
           name="photoOfPatient"
           onChange={handlePhto}
         />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="treatmentType">Type of Treatment:</Label>
-        <Input
+      </div>
+      <div className="input">
+        <label htmlFor="treatmentType">Type of Treatment:</label>
+        <input
           type="text"
           id="treatmentType"
           required={true}
@@ -244,10 +257,10 @@ const  ApplicationForm=()=> {
           value={application.treatmentType}
           onChange={(e) => setApplication({...application, treatmentType: e.target.value})}
         />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="estimatedCost">Estimated Cost:</Label>
-        <Input
+      </div>
+      <div className="input">
+        <label htmlFor="estimatedCost">Estimated Cost:</label>
+        <input
           type="number"
           id="estimatedCost"
           required={true}
@@ -255,14 +268,14 @@ const  ApplicationForm=()=> {
           value={application.required_money}
           onChange={(e) => setApplication({...application, required_money: e.target.value})}
         />
-      </FormGroup>
-      </FormContainer>
+      </div>
+      </div>
 
-      <FormContainer>
+      <div className='applicationForm'>
         <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Address Details</h1>
-        <FormGroup>
-          <Label htmlFor="houseNumber">House Number:</Label>
-          <Input
+        <div className="input">
+          <label htmlFor="houseNumber">House Number:</label>
+          <input
             type="text"
             required={true}
             id="houseNumber"
@@ -270,10 +283,10 @@ const  ApplicationForm=()=> {
             value={application.houseNumber}
             onChange={(e) => setApplication({...application, houseNumber: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="village">Village:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="village">Village:</label>
+          <input
             type="text"
             id="village"
             required={true}
@@ -281,10 +294,10 @@ const  ApplicationForm=()=> {
             value={application.village}
             onChange={(e) => setApplication({...application, village: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="mandal">Mandal:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="mandal">Mandal:</label>
+          <input
             type="text"
             id="mandal"
             required={true}
@@ -292,10 +305,10 @@ const  ApplicationForm=()=> {
             value={application.mandal}
             onChange={(e) => setApplication({...application, mandal: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="district">District:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="district">District:</label>
+          <input
             type="text"
             required={true}
             id="district"
@@ -303,10 +316,10 @@ const  ApplicationForm=()=> {
             value={application.district}
             onChange={(e) => setApplication({...application, district: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="state">State:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="state">State:</label>
+          <input
             type="text"
             required={true}
             id="state"
@@ -314,10 +327,10 @@ const  ApplicationForm=()=> {
             value={application.state}
             onChange={(e) => setApplication({...application, state: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="pincode">Pincode:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="pincode">Pincode:</label>
+          <input
             type="text"
             id="pincode"
             name="pincode"
@@ -325,14 +338,14 @@ const  ApplicationForm=()=> {
             value={application.pincode}
             onChange={(e) => setApplication({...application, pincode: e.target.value})}
           />
-        </FormGroup>
-      </FormContainer>
+        </div>
+      </div>
 
-      <FormContainer>
+      <div className='applicationForm'>
         <h1 style={{fontSize:30,fontWeight:'bold', marginBottom:15}}>Family Information</h1>
-        <FormGroup>
-          <Label htmlFor="fatherName">Father Name:</Label>
-          <Input
+        <div className="input">
+          <label htmlFor="fatherName">Father Name:</label>
+          <input
             type="text"
             required={true}
             id="fatherName"
@@ -340,10 +353,10 @@ const  ApplicationForm=()=> {
             value={application.fatherName}
             onChange={(e) => setApplication({...application, fatherName: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="parentPhoneNumber">Parent/Guardian Phone Number:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="parentPhoneNumber">Parent/Guardian Phone Number:</label>
+          <input
             type="tel"
             id="parentPhoneNumber"
             required={true}
@@ -351,10 +364,10 @@ const  ApplicationForm=()=> {
             value={application.parentPhoneNumber}
             onChange={(e) => setApplication({...application, parentPhoneNumber: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="parentOccupation">Parent's Occupation Details:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="parentOccupation">Parent's Occupation Details:</label>
+          <input
             type="text"
             required={true}
             id="parentOccupation"
@@ -362,10 +375,10 @@ const  ApplicationForm=()=> {
             value={application.parentOccupation}
             onChange={(e) => setApplication({...application, parentOccupation: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="sourceOfIncome">Annual Income:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="sourceOfIncome">Annual Income:</label>
+          <input
             type="text"
             id="sourceOfIncome"
             required={true}
@@ -373,10 +386,10 @@ const  ApplicationForm=()=> {
             value={application.anualIncome}
             onChange={(e) => setApplication({...application, anualIncome: e.target.value})}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="landDetails">Land Details:</Label>
-          <Input
+        </div>
+        <div className="input">
+          <label htmlFor="landDetails">Land Details:</label>
+          <input
             type="text"
             id="landDetails"
             name="landDetails"
@@ -384,10 +397,10 @@ const  ApplicationForm=()=> {
             value={application.landDetails}
             onChange={(e) => setApplication({...application, landDetails: e.target.value})}
           />
-        </FormGroup>
-      </FormContainer>
-
-    <Button >Submit</Button>
+        </div>
+      </div>
+      <div className='btn'>    <Button >Submit</Button>
+</div>
     </form>
   </div>
   )

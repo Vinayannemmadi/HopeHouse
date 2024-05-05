@@ -11,6 +11,7 @@ function App() {
     <Box className="App">
       {/* <Loading /> */ }
       <Navbar />
+      
       <MainRoutes />
     </Box>
   );

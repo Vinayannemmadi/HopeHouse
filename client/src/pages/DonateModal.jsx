@@ -33,7 +33,7 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
       const getData= async()=>{
         try{
           if(!token) return ;
-              const { data } = await axios.post('http://localhost:5000/api/auth/getusername', 
+              const { data } = await axios.post('http://localhost:5001/api/auth/getusername', 
               { token });
               setSponsor(data);
           }
@@ -45,9 +45,9 @@ const DonateModal = ({ isOpen, onOpen, onClose }) => {
   } ,[])
   const clickHandler = async () => {
     try{
-        const {data}=await axios.put("http://localhost:5000/api/helprequest/updateAmount",
+        const {data}=await axios.put("http://localhost:5001/api/helprequest/updateAmount",
           {id:id,amount:amount,sponsor:sponsor,screenshot:screenshot});
-        console.log(data);
+        console.log("sda",data);
     } catch (error) {
 
     }

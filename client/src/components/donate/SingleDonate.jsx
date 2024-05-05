@@ -49,7 +49,7 @@ const SingleDonate = () => {
   const [donatePerson,setDonate]=useState([]);
   useEffect (()=>{
       const getData = async ()=>{
-          axios.get(`http://localhost:5000/api/helprequest/${id}`)
+          axios.get(`http://localhost:5001/api/helprequest/${id}`)
           .then((res)=>{
               console.log(res.data);
               setDonate(res.data);

@@ -8,7 +8,7 @@ const AdminApplication = () => {
     const navigate =useNavigate();
     useEffect(()=>{
         const getData = async() =>{
-            const {data}=await axios.get('http://localhost:5000/api/application');
+            const {data}=await axios.get('http://localhost:5001/api/application');
             if(!data)
                 return ;
             // console.log(data);
@@ -19,7 +19,7 @@ const AdminApplication = () => {
     const handleDelete =async(id)=>{
         console.log(id);
         try{
-            await axios.delete(`http://localhost:5000/api/application/${id}`);
+            await axios.delete(`http://localhost:5001/api/application/${id}`);
             const newPosts = posts.filter((post) => post._id !== id);
             console.log(newPosts);
             setPosts(newPosts);

@@ -18,7 +18,7 @@ const Donate = () => {
   useEffect(()=>{
     const  getDonates=async ()=>{
         try{
-          const {data}= await axios.get("http://localhost:5000/api/helprequest")
+          const {data}= await axios.get("http://localhost:5001/api/helprequest")
             console.log(data);
             setDonates(data);
         } catch(error) {

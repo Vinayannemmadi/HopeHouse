@@ -37,17 +37,19 @@ const SingleAdminDonate = () => {
         story:           "",
         discription:     "",
         supporters:"",
-        screenshots:[]
+        screenshots:[],
+        verified:[]
 
     });
     const navigate=useNavigate();
     const [donate,setDonate]=useState([]);
     const {id}=useParams();
+    const [amount, setAmount] = useState(0);
 
     useEffect(()=>{
         const getData=async()=>{
             try{
-                const {data}=await axios.get(`http://localhost:5000/api/helprequest/${id}`);
+                const {data}=await axios.get(`http://localhost:5001/api/helprequest/${id}`);
                 console.log("id: ",id,"single donate data: ",data);
                 setApplication(data);
                 setDonate(data);
@@ -63,7 +65,7 @@ const SingleAdminDonate = () => {
         // e.preventDefault();
         console.log('handleSubmit..')
         try{
-            const {data}=await axios.put(`http://localhost:5000/api/helprequest/${id}`,application);
+            const {data}=await axios.put(`http://localhost:5001/api/helprequest/${id}`,application);
             console.log(data);
             navigate('/admindonate');
         }
@@ -71,10 +73,35 @@ const SingleAdminDonate = () => {
             console.log(error);
         }
     }
+
+    const handle = (idx) => {
+        console.log("idx", idx)
+        application.verified[idx] = true;
+        
+        setApplication((prevApp)=>{
+            const v = prevApp.verified
+            v[idx] = true
+            return {
+                ...prevApp,
+                verified: v
+            }
+        })
+        console.log(application.verified)
+    }
+
+    const handleAddMoney = (e) => {
+        setAmount(e.target.value);
+    }
+
+    const addMoney = (e) =>{
+        e.preventDefault()
+        setApplication({...application,collected_money: Number(amount)+Number(application.collected_money)})
+        setAmount(0)
+    }
     return (
         <div className="App">
             {/* <h1>Donate Form</h1> */}
-            <Container>
+            <div className="container">
                 {/* personal Info */}
                 <div className="regForm">
                     <div className="title">Personal Information</div>
@@ -116,7 +143,7 @@ const SingleAdminDonate = () => {
                     </form>
                 </div>
                 {/* medial info */}
-                <div>
+                <div className="regForm">
                     <div className="title">Medical Details</div>
                     <form>
                     <div className="input">
@@ -139,11 +166,20 @@ const SingleAdminDonate = () => {
                     <input type="number" placeholder="ex:10,000" 
                         value={application.collected_money} onChange={(e)=>setApplication({...application,collected_money:e.target.value})}/>
                     </div>
+
+                    <div className="input">
+                    <label>Add amount:</label>
+                    <input type="number" placeholder="ex:10,000" 
+                        value={amount} onChange={handleAddMoney}/>
+                    </div>
+                    <div className="addAmount">
+                    <button onClick={addMoney}>Add</button>
+                    </div>
                     
                     </form>
                 </div>
                 {/* address info */}
-                <div>
+                <div className="regForm">
                     <div className="title">Address Details</div>
                     <form>
                     <div className="input">
@@ -179,7 +215,7 @@ const SingleAdminDonate = () => {
                     </form>
                 </div>
                 {/* family info */}
-                <div>
+                <div className="regForm">
                     <div className="title">Family Information</div>
                     <form>
                     <div className="input">
@@ -209,19 +245,26 @@ const SingleAdminDonate = () => {
                     </div>
                     </form>
                 </div>
-            </Container>  
+            </div>  
             <button className="btn btn-primary" 
                 style={{width:400, marginTop:30,marginBottom:50}}
                 onClick={handleSubmit} >Update</button>
             <br></br>
-            <div>
-                {application.screenshots.map((m)=>(
+            <div className="ss">
+                {application.screenshots.map((m,idx)=>(
+                    <div>
                     <img src={m} alt="" style={{height:400,width:260 ,margin:30 ,borderRadius:10}}/>
+                    
+                    <input checked={application.verified[idx]} type="checkbox" onChange={()=> handle(idx)}/>
+                    </div>
                 ))}
             </div>
         </div>
     )                       
 }
+
+
+
 export default SingleAdminDonate;
 
 const Container = styled.div`
