@@ -3,12 +3,12 @@ import './support.css'
 const Support = () => {
     return (
         <>
-            <div className="heading">
+            {/* <div className="heading">
                 <img src="./IMG_20230705_215752.jpg" alt="" className="logo" />
-            </div>
+            </div> */}
             <div className="mainbox">
 
-                <h1><img src="photos/IMG_20230705_215752.jpg" alt="" className="./photos/contact-logo" />Contact-Us</h1>
+                <div><label style={{fontSize:"60px", fontWeight:"bold"}}>Contact-Us</label></div>
                 <div className="logodiv"><img src="./photos/phone-call.png" alt=""/><i>Call</i>
                     <div class="sub">
                         <li>Srikanth Vadithya(Core member): +919542005394</li>

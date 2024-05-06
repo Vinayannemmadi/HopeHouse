@@ -47,7 +47,7 @@ const ContactUs = () => {
               >
                 INDIA
               </Tab>
-              <Tab
+              {/* <Tab
                 _selected={{ color: "#9c3353", textDecor: "underline" }}
                 fontSize={"25px"}
               >
@@ -58,14 +58,16 @@ const ContactUs = () => {
                 fontSize={"25px"}
               >
                 US
-              </Tab>
+              </Tab> */}
             </TabList>
             <TabPanels>
               <TabPanel textAlign={"start"}>
                 <Text mt={"2%"} mb={"2%"}>
-                  HopeHouse Social Ventures India Pvt. Ltd. ClayWorks Create –
-                  building,11th KM Create Campus, Arakere Bannerghatta Rd,
-                  Bangalore, Karnataka, India 560076
+                 
+                  HopeHouse Campus Team <br/>
+                  SAC, RGUKT Campus, Basar,<br/>
+                  NIRMAL, TELANGANA, INDIA  504107
+               
                 </Text>
                 <a
                   style={{ color: "#9c3353" }}

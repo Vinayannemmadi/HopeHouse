@@ -12,18 +12,13 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import * as types from "./../store/AuthReducer/actionTypes";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { register } from "../store/AuthReducer/actions";
 import {ToastContainer, toast} from 'react-toastify';
 import axios from "axios";
 export default function Signup() {
-  const toast = useToast();
-  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -32,7 +27,7 @@ export default function Signup() {
     email: "",
     password: "",
   });
-
+  const [error,setError]=useState("");
   const formsubmit =async (e) => {
     e.preventDefault();
     try{
@@ -43,26 +38,9 @@ export default function Signup() {
     navigate("/Login");
   }
   catch(error){
+    setError(error.response.data);
     console.log(error.response.data);
   }
-    // dispatch(register(cred)).then((d) => {
-    //   if (d.type === types.REGISTER_SUCCESS) {
-    //     toast({
-    //       title: `registration success`,
-    //       status: "success",
-    //       duration: 3000,
-    //       isClosable: true,
-    //     });
-    //     navigate("/Login");
-    //   } else {
-    //     toast({
-    //       title: `registration fail`,
-    //       status: "error",
-    //       duration: 3000,
-    //       isClosable: true,
-    //     });
-    //   }
-    // });
   };
 
   return (
@@ -125,6 +103,7 @@ export default function Signup() {
             </Box>
 
             <form onSubmit={formsubmit}>
+              {error && <div style={{color:"red"}}>{error}</div>}
               <Stack pt={7}>
                 <FormControl id="lastName">
                   <Input
@@ -134,6 +113,7 @@ export default function Signup() {
                     name="fullname"
                     onChange={(e) => {
                       setCred({ ...cred, fullname: e.target.value });
+                      setError("");
                     }}
                     htmlSize={49}
                   />
@@ -148,6 +128,7 @@ export default function Signup() {
                     placeholder="Email"
                     name="email"
                     onChange={(e) => {
+                      setError("");
                       setCred({ ...cred, email: e.target.value });
                     }}
                   />
@@ -162,6 +143,7 @@ export default function Signup() {
                       placeholder="Password"
                       name="password"
                       onChange={(e) => {
+                         setError("");
                         setCred({ ...cred, password: e.target.value });
                       }}
                     />
@@ -169,6 +151,7 @@ export default function Signup() {
                       <Button
                         variant={"ghost"}
                         onClick={() =>
+
                           setShowPassword((showPassword) => !showPassword)
                         }
                       >
