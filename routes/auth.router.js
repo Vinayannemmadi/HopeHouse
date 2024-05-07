@@ -15,9 +15,9 @@ router.post('/signup', async (req,res)=>{
         const userwithusername=await User.findOne({email:req.body.username});
         
         if(userwithemail)
-           return  res.status(400).send('user already exists...');
+           return  res.status(400).send('user already registered');
         else if(userwithusername)
-           return res.status(400).send('user already exists...');
+           return res.status(400).send('user already registered');
         const user= new User(req.body);
         const salt=await bcrypt.genSalt(10);
         user.password=await bcrypt.hash(user.password,salt);
@@ -44,9 +44,11 @@ router.post('/signin', async (req,res)=>{
         }
         const user= await User.findOne({email:req.body.email});
         if(!user)
-            res.status(400).send('User not found...');
+            res.status(400).send('User not found');
         const validPassword=await bcrypt.compare(req.body.password,user.password);
-        if(user.password !== user.password){
+        console.log(user.password);
+        console.log(req.body.password);
+        if(!validPassword){
             return res.status(400).send('Invalid password');
         }
         const isAdmin=false;
@@ -87,8 +89,8 @@ router.post('/getusername',authenticateToken,async(req,res)=>{
 });
 
 router.post('/admin',async(req,res)=>{
+
     if(!req.body)return res.status(400).send('Enter valid credentials..');
-    
     try{
         const findadmin=await Admin.findOne({email:req.body.email});
         if(findadmin)return res.send('Admin regested already..');
@@ -99,7 +101,7 @@ router.post('/admin',async(req,res)=>{
         await admin.save();
         res.send(admin);
     }
-    catch(error){
+    catch (error) {
         res.status(400).send('Unable to register admin...');
     }
 });

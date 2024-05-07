@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 const Helprequest=require('../models/helprequests.module');
 const bodyParser = require('body-parser');
+const { collection } = require('firebase/firestore');
 router.use(bodyParser.json({ limit: '100mb' }));
 router.use(express.json({ limit: '100mb' })); // Adjust the limit as needed
 
@@ -45,17 +46,35 @@ router.put('/updateAmount',async(req,res)=>{
         //col_money+=parseInt(amount);
         let helprequest= await Helprequest.updateOne({_id:id},
             {   
-                $push:{supporters:sponsor},
-                $push:{screenshots:screenshot},
+                $push: {
+                    supporters: sponsor,
+                    screenshots: screenshot
+                }
             });
+        
         helper=await Helprequest.findOne({_id:id});
+        console.log(helper);
         return res.send(helper);
     } catch (error) {
         console.log(error);
         res.status(400).send("error error");
     }
 });
+router.put("/addmoney/:id",async (req,res)=>{
+    try{
 
+        const {id}=req.params;
+        console.log(req.body,id);
+        let help=await Helprequest.findByIdAndUpdate({_id:id},{
+            collected_money:req.body.money
+        });
+        help=await Helprequest.findOne({_id:id});
+        return res.send(help);
+    }catch(error){
+        console.log(error);
+        res.status(400).send("Error in adding money.");
+    }
+});
 router.post('/',async (req,res) => {
     
     try{

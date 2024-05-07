@@ -89,13 +89,20 @@ const SingleAdminDonate = () => {
         console.log(application.verified)
     }
 
-    const handleAddMoney = (e) => {
-        setAmount(e.target.value);
+    const handleAddMoney = async (e) => {
+        setAmount(e.target.value);   
     }
 
-    const addMoney = (e) =>{
+    const addMoney = async (e) =>{
         e.preventDefault()
+        console.log(amount,id);
         setApplication({...application,collected_money: Number(amount)+Number(application.collected_money)})
+        try{
+            const {data}=await axios.put(`http://localhost:5001/api/helprequest/addmoney/${id}`,{money:application.collected_money});
+            console.log(data);
+        } catch(er){
+        console.log(er);
+        }
         setAmount(0)
     }
     return (
@@ -255,7 +262,7 @@ const SingleAdminDonate = () => {
                     <div>
                     <img src={m} alt="" style={{height:400,width:260 ,margin:30 ,borderRadius:10}}/>
                     
-                    <input checked={application.verified[idx]} type="checkbox" onChange={()=> handle(idx)}/>
+                    <input checked={application.verified[idx]} type="checkbox" style={{height:30,width:30,color:"green"}} onChange={()=> handle(idx)}/>
                     </div>
                 ))}
             </div>

@@ -33,7 +33,7 @@ const Login = () => {
   const navigate = useNavigate();
   const cookies=new Cookies();
   const token=cookies.get('jwtToken');
-
+  const [error,setError]=useState("")
   const googleHandler = () => {
     signInWithPopup(auth,provider).then((d)=>{
       setData({password:d.user.password,email:d.user.email});
@@ -54,6 +54,7 @@ const Login = () => {
     }
     catch(error){
       console.log(error.response.data);
+      setError(error.response.data);
       // toast.error(error.response.data);
     }
     // dispatch(login(data)).then((d) => {
@@ -146,6 +147,7 @@ const Login = () => {
             </Box>
 
             <form onSubmit={formsubmit}>
+              {error && <div style={{color:"red"}}>{error}!!</div>}
               <Stack pt={8}>
                 <FormControl id="email">
                   <InputGroup>
@@ -157,6 +159,7 @@ const Login = () => {
                       name="email"
                       value={data.email}
                       onChange={(e) => {
+                        setError("");
                         setData({ ...data, email: e.target.value });
                       }}
                     />

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 const SingleAdminApplication = () => {
@@ -234,39 +233,3 @@ const SingleAdminApplication = () => {
     )                       
 }
 export default SingleAdminApplication;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap:wrap;
-  height:100%;
-  width:100%;
-//   border:1px solid black;
-`;
-
-const RegistrationForm = styled.div`
-  max-width: 400px;
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 10px 0px 40px rgba(0, 0, 0, 0.4);
-  margin: 20px;
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  margin-bottom: 30px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Label=styled.label`
-    color: green;
-`;
